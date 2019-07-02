@@ -4,7 +4,6 @@ const babel = require('@babel/core');
 
 const right = () => {
   return {
-    name: 'ast-transform', // not required
     visitor: {
       Program(path) {
         path.node.body = [path.node.body[0].expression.right];
@@ -14,7 +13,7 @@ const right = () => {
 };
 
 module.exports = function(content) {
-  console.log(3);
+  console.log(3, content);
   const code = babel.transform(content, {
     plugins: [right],
   }).code;

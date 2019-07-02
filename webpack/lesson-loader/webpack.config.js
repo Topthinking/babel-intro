@@ -14,12 +14,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        loader: 'js-loader',
-      },
-      {
         test: /\.jpg/,
-        loader: 'ignoreCompiler-loader?a=2!file-my-loader!file-loader',
+        loader: 'ignoreCompiler-loader?a=2!filename-loader!file-loader',
       },
       {
         test: /\.css/,
