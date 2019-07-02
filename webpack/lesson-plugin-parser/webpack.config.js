@@ -1,8 +1,50 @@
 const webpack = require('webpack');
 
+const name = 'MyPlugin';
+
 class MyPlugin {
-  apply(compiler) {}
+  apply(compiler) {
+    compiler.hooks.invalid.tap(name, (fileName, changeTime) => {});
+    compiler.hooks.thisCompilation.tap(name, (compilation) => {
+      const { mainTemplate } = compilation;
+    });
+    compiler.hooks.emit.tapAsync(name, (compilation, callback) => {
+      const str = '{}';
+      compilation.assets['emit.json'] = {
+        source() {
+          return str;
+        },
+        size() {
+          return str.length;
+        },
+      };
+      callback();
+    });
+    compiler.hooks.done.tap(name, (states) => {
+      console.log(states);
+    });
+  }
 }
+
+compiler.hooks.invalid.tap(name, (fileName, changeTime) => {});
+compiler.hooks.thisCompilation.tap(name, (compilation) => {
+  const { mainTemplate } = compilation;
+});
+compiler.hooks.emit.tapAsync(name, (compilation, callback) => {
+  const str = '{}';
+  compilation.assets['emit.json'] = {
+    source() {
+      return str;
+    },
+    size() {
+      return str.length;
+    },
+  };
+  callback();
+});
+compiler.hooks.done.tap(name, (states) => {
+  console.log(states);
+});
 
 module.exports = {
   devtool: 'source-map',
